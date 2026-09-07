@@ -6,4 +6,5 @@ urlpatterns = [
     path("job/create/" , views.postJob , name="create-job"),
     path("job/show/" , views.showjobs , name="show-job"),
     path("job/show/<int:jid>" , views.jobDetail , name="job-detail"),
+    path("job/edit/<int:jid>" , views.updateJobDetail , name="job-update"),
 ]
