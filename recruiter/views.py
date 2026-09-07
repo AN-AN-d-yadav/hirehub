@@ -172,8 +172,6 @@ def updateJobDetail(request , jid):
 
     return render(request , "recruiter/update_job.html" ,context )
     
-
-
 def deleteJob(request , jid):
     user_id = request.session.get('user_id' , None)
     if user_id is None :
@@ -198,7 +196,28 @@ def deleteJob(request , jid):
      
     job.delete()
     messages.success(request , "Job Deleted Successfully ")
-    return redirect("show-jobs")
+    return redirect("show-job")
 
-    
+def showApplicants(request , jid):
+    pass
+
+def updateJobStatus(request , jid):
+    pass
+
+def createProfile(request):
+    pass
+
+def editProfile(request):
+    pass
+
+def changePassword(request):
+    pass
+
+
+
+
+
+
+
+
 
