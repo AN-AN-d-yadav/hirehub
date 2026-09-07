@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 >Create A Job Post </h1>
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <div>
+            <label for="title">Job Title</label> <br>
+            <input type="text" id="title" name="title">
+        </div>
+        <hr>
+
+        <div>
+            <label for="description">Job  Description</label> <br>
+            <input type="text" id="description" name="description">
+        </div>
+        <hr>
+
+        <div>
+            <label for="salary">Salary </label> <br>
+            <input type="number" id="salary" name="salary">
+        </div>
+        <hr>
+
+        <div>
+            <label for="location">Job  location</label> <br>
+            <textarea name="location" id="location"></textarea>
+        </div>
+        <hr>
+
+        <div>
+            <label for="vacancy">Vacancy </label> <br>
+            <input type="number" id="vacancy" name="vacancy">
+        </div>
+        <hr>
+
+        <div>
+            <label for="deadline">Deadline</label> <br>
+            <input type="date" id="deadline" name="deadline">
+        </div>
+        <hr>
+
+        <div>
+            <label for="job_type">Job Type</label> <br>
+           <select name="job_type" id="job_type">
+            <option value="full_time">Full Time</option>
+            <option value="part_time">Part Time</option>
+            <option value="internship">Internship</option>
+            <option value="contract">Contract</option>
+           </select>
+        </div>
+        <hr>
+
+        <div>
+            <label for="job_category">Select Job Category</label> <br>
+           <select name="job_category" id="job_category">
+
+            {% for category in categories %}
+                <option value={{category.id}}>{{category.category_name}}</option>
+            {% endfor %}
+           </select>
+        </div>
+        <hr>
+
+        <div>
+            <label for="skills_required">Choose the Skills </label> <br>
+           <select name="skills_required" id="skills_required" multiple>
+
+            {% for skill in skills %}
+                <option value={{skill.id}}>{{skill.skill_name}}</option>
+            {% endfor %}
+
+           </select>
+        </div>
+        <hr>
+
+        <br>
+         <button type="submit"> Submit </button>
+        
+
+    </form>
+</body>
+</html>

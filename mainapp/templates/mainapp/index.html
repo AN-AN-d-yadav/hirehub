@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body bgcolor="black" style="color: white; padding: 0; margin: 0;">
+    {% if messages %}
+        {% for message in messages %}
+            <h2 style="color:yellow; background-color: black; padding: 10px;">{{message}}</h2>
+        {% endfor %}
+        <hr> <br>
+        <br>
+    {% endif %}
+  
+
+
+    <h1 style="text-align: center;
+     background-color: rgb(47, 47, 47);
+     padding: 15px;
+     margin: 0;
+     "><b><i>Home Page</i></b></h1>
+
+     <br>
+    
+     {% if user.email %}
+     {{user.first_name}}
+     {{user.last_name}}
+     {{user.email}}
+     {{user.u_type}}
+
+     <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">logout</button>
+     </form>
+
+     {% endif %}
+  
+</body>
+</html>
