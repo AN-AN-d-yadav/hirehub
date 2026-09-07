@@ -4,21 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        h1{
-            text-align: center;
-        }
-        
-    </style>
 </head>
 <body>
-
-    {% if messages %}
-        {% for message in messages %}
-            <h1>{{message}}</h1>
-        {% endfor %}
-    {% endif %}
-
+    {% if job %}
     <h1>All Jobs</h1>
     <div>
         <table border="2px" align="center" cellspacing="0" cellpadding="10px">
@@ -36,7 +24,7 @@
             <th>skills_required</th>
             <th>created_at</th>
         </tr>
-        {% for job in jobs %}
+        
         <tr>
             <td>{{job.title}}</td>
             <td>{{job.description}}</td>
@@ -55,9 +43,9 @@
             </td>
             <td>{{job.created_at}}</td>
         </tr>
-        {% endfor %}
+        
     </table>
     </div>
-    
+    {% endif %}
 </body>
 </html>

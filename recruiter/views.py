@@ -17,7 +17,6 @@ def dashboard(request):
     
     return render(request , "recruiter/recruiter_dashboard.html")
 
-
 def postJob(request):
     # who is the user right now
     # koi logged in hai bhi ya nahi 
@@ -100,14 +99,17 @@ def jobDetail(request , jid):
         return redirect("login")
     recruiter  = Recruiter.objects.get(user = user)
 
-    job = Job.objects.get(id=jid)
-
-    if job is None:
+    try : 
+        job = Job.objects.get(id=jid)
+    except:
         messages.error(request , "Job Not Found")
-        
+        return redirect("show-job")
 
-    return render
-
+    if job.recruiter != recruiter:
+        messages.error(request , "Unauthorized Access")
+        return redirect("show-job")
+    
+    return render(request , "recruiter/job_detail.html" , {"job":job})
 
 
 def updateJobDetail(request , jid):
