@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+    <h1>All Jobs </h1>
+    <table border="5px" cellspacing="0" cellpadding="10px">
+        <tr>
+            <th>Job type </th>
+            <th>Recruiter</th>
+            <th>Category</th>
+            <th>title</th>
+            <th>description</th>
+            <th>salary</th>
+            <th>location</th>
+            <th>vacancy</th>
+            <th>deadline</th>
+            <th>is_active</th>
+            <th>skills_required</th>
+            <th>created_at</th>
+            <th>Action</th>
+        </tr>
+        {% for job in jobs %}
+        <tr>
+            <td><h5>{{job.job_type}}</h5></td>
+            <td><h5>{{job.recruiter}}</h5></td>
+            <td><h5>{{job.category}}</h5></td>
+            <td><h5>{{job.title}}</h5></td>
+            <td><h5>{{job.description}}</h5></td>
+            <td><h5>{{job.salary}}</h5></td>
+            <td><h5>{{job.location}}</h5></td>
+            <td><h5>{{job.vacancy}}</h5></td>
+            <td><h5>{{job.deadline}}</h5></td>
+            <td><h5>{{job.is_active}}</h5></td>
+            <td>{% for skills in job.skills_required.all %}
+                {{skills.skill_name}}
+                {% endfor %}
+            </td>
+            <td><h5>{{job.created_at}}</h5></td>
+            <td><a href="#">apply now</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    
+    
+</body>
+</html>
