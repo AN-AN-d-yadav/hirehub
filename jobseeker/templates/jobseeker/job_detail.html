@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if job %}
+    <h1>All Jobs</h1>
+    <div>
+        <table border="2px" align="center" cellspacing="0" cellpadding="10px">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Job Type</th>
+            <th>Recruiter</th>
+            <th>Salary</th>
+            <th>location</th>
+            <th>vacancy</th>
+            <th>deadline</th>
+            <th>is_active</th>
+            <th>skills_required</th>
+            <th>created_at</th>
+            <th>Action</th>
+        </tr>
+        
+        <tr>
+            <td>{{job.title}}</td>
+            <td>{{job.description}}</td>
+            <td>{{job.category}}</td>
+            <td>{{job.job_type}}</td>
+            <td>{{job.recruiter}}</td>
+            <td>{{job.salary}}</td>
+            <td>{{job.location}}</td>
+            <td>{{job.vacancy}}</td>
+            <td>{{job.deadline}}</td>
+            <td>{{job.is_active}}</td>
+            <td>
+                {% for skill in job.skills_required.all %}
+                <span>{{skill}}</span>
+                {% endfor %}
+            </td>
+            <td>{{job.created_at}}</td>
+            <td>
+
+                <a href="#">apply now</a>
+            </td>
+        </tr>
+        
+    </table>
+    </div>
+    {% endif %}
+</body>
+</html>

@@ -8,6 +8,9 @@
 </head>
 <body>
     <h1>All Jobs </h1>
+    {% for message in messages %}
+       <h2>{{message}}</h2> 
+    {% endfor %}
     <table border="5px" cellspacing="0" cellpadding="10px">
         <tr>
             <th>Job type </th>
