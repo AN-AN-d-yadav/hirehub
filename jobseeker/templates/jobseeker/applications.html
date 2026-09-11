@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>All Jobs</h1>
+    {% if applications %}
+        <table border="2px" cellspacing="0" cellpadding="15px">
+            <tr>
+                <th>Job Title</th>
+                <th>Applied at</th>
+                <th>Status</th>
+                <th>View Deatils</th>
+            </tr>
+            {% for application in applications %}
+                <tr>
+                    <td>{{application.job.title}}</td>
+                    <td>{{application.applied_at}}</td>
+                    <td>{{application.status}}</td>
+                    <td><a href="{% url 'job-detail' jid=application.job.id %}">Details</a></td>
+                </tr>
+            {% endfor %}
+            
+        </table>
+    {% else %}
+        <h4>No applications Yet ......</h4>
+    {% endif %}
+</body>
+</html>

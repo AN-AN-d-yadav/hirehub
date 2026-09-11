@@ -30,22 +30,14 @@ def showJobs(request):
             return redirect("login")
 
     jobs = Job.objects.filter(is_active=True , deadline__gte=timezone.now())
-
     # figure out jobs pe sirf vo jobs dikhe jinme jobseejer -> logged in jobseeker na ho
-
-
-        
-
     # job deadline cross krgyi ya nahi 
     # calculate date delta 
     # hume sirf vo jobs dikhani hai jisme deadline - current date >= 0 => 14  - 13 => 1  , 14 - 14 = 0 , time delta 
-
     # current_time = timezone.now() -> current date and time 
     # deadline = job.deadline
     # delta = deadline - current_time
-
     # deadline__gte > = timezone.now()
-
     # deadline     = 10 Sept, 5:00 PM
     # current_time = 10 Sept, 11:00 AM
     # delta = 6:00:00
@@ -111,15 +103,38 @@ def applyJob(request , jid):
     messages.success(request , "Job Applied Successfully ")
     return redirect("jobs")
 
-
 def showApplications(request):
+    # this page will serve the information of all jobs applied by a jobseeker
+    # this page is job seeker specific 
+    # authentication is must as well as authorization is must 
+    user_id = request.session.get('user_id' , None)
+    if user_id is None :
+        messages.error(request , "Login first")
+        return redirect("login")
+    user = AppUser.objects.get(id=user_id)
+    if user.u_type != "jobseeker":
+        messages.error(request , "You are not Authorized to perform this operation")
+        return redirect("login")
+    try :
+        jobseeker = JobSeeker.objects.get(user = user)
+    except:
+        messages.error(request , "jobseeker not found")
+        return redirect("login")
+
+    try:
+        applications  = JobApplication.objects.filter(jobseeker = jobseeker)
+        return render(request , "jobseeker/applications.html" , {"applications":applications})
+    except:
+        return render(request , "jobseeker/applications.html")
+
+def deleteApplication(request , aid):
     pass
 
+    
+         
 
-
-
-
-
-
+# ui 
 # cv upload karana on application
 # dont show already applied jobs in show jobs .
+# dont show apply button in job detail page if user has already applied for that job .
+# 
