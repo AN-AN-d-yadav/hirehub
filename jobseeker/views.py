@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.utils import timezone
 
 from accounts.models import AppUser , JobSeeker , Recruiter
-from recruiter.models import Job , JobCategory 
+from recruiter.models import Job , JobCategory , JobApplication
 
 # Create your views here.
 
@@ -30,6 +30,11 @@ def showJobs(request):
             return redirect("login")
 
     jobs = Job.objects.filter(is_active=True , deadline__gte=timezone.now())
+
+    # figure out jobs pe sirf vo jobs dikhe jinme jobseejer -> logged in jobseeker na ho
+
+
+        
 
     # job deadline cross krgyi ya nahi 
     # calculate date delta 
@@ -78,19 +83,43 @@ def jobDetail(request , jid):
     messages.error(request , "No such Job exist") 
     return redirect("jobs")
 
-    
-
 def applyJob(request , jid):
-    pass
+    # jobseeker kon hai 
+    # job konsi hai 
+    user_id = request.session.get('user_id' , None)
+    if user_id is None :
+        messages.error(request , "Login first")
+        return redirect("login")
+    user = AppUser.objects.get(id=user_id)
+    if user.u_type != "jobseeker":
+        messages.error(request , "You are not Authorized to perform this operation")
+        return redirect("login")
+    jobseeker = JobSeeker.objects.get(user = user)
+    try : 
+        job = Job.objects.get(id=jid)
+    except:
+        messages.error(request , "Job Not Found")
+        return redirect("jobs")
+
+    exist  = JobApplication.objects.filter(job_id = jid , jobseeker = jobseeker)
+
+    if exist :
+        messages.error(request , "You have already applied for this job")
+        return redirect("jobs")
+    
+    application = JobApplication.objects.create(jobseeker=jobseeker , job_id = jid)
+    messages.success(request , "Job Applied Successfully ")
+    return redirect("jobs")
+
 
 def showApplications(request):
     pass
 
-def appliedJobStatus(request , jid):
-    pass
 
 
 
 
 
 
+# cv upload karana on application
+# dont show already applied jobs in show jobs .

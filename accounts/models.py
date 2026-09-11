@@ -33,7 +33,6 @@ class Skill(models.Model):
 
 class JobSeeker(models.Model):
     user = models.OneToOneField(AppUser , on_delete=models.CASCADE , related_name="jobseeker")
-
     # Addresss
     locality = models.CharField(max_length=255)
     city = models.CharField(max_length =255)

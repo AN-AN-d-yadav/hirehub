@@ -44,7 +44,7 @@
                 {% endfor %}
             </td>
             <td><h5>{{job.created_at}}</h5></td>
-            <td><a href="#">apply now</a></td>
+            <td><a href="{% url 'apply' jid=job.id %}">apply now</a></td>
         </tr>
         {% endfor %}
     </table>

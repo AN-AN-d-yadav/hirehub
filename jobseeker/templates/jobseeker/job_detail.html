@@ -45,7 +45,7 @@
             <td>{{job.created_at}}</td>
             <td>
 
-                <a href="#">apply now</a>
+                <a href="{% url 'apply' jid=job.id %}">apply now</a>
             </td>
         </tr>
         
