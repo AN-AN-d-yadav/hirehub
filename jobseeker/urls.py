@@ -8,4 +8,6 @@ urlpatterns = [
     path("job/apply/<int:jid>" , views.applyJob , name="apply"),
     path("applications/" , views.showApplications , name="applications"),
     
+    path("applications/delete/<int:aid>" , views.deleteApplication , name="application-delete"),
 ]
+

@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from accounts.models import Skill , AppUser
-from . models import JobCategory , Job ,Recruiter
+from . models import JobCategory , Job ,Recruiter , JobApplication
 from django.contrib import messages
 
 # Create your views here.
@@ -198,12 +198,72 @@ def deleteJob(request , jid):
     messages.success(request , "Job Deleted Successfully ")
     return redirect("show-job")
 
+
+
 def showApplicants(request , jid):
-    pass
+    user_id = request.session.get('user_id' , None)
+    if user_id is None :
+        messages.error(request , "Login first")
+        return redirect("login")
+    user = AppUser.objects.get(id=user_id)
+    if user.u_type != "recruiter":
+        messages.error(request , "You are not Authorized to perform this operation")
+        return redirect("login")
+    
+    recruiter  = Recruiter.objects.get(user = user)
 
-def updateJobStatus(request , jid):
-    pass
+    try:
+        job = Job.objects.get(id=jid)
+    except:
+        messages.error(request , "Job Not Found")
+        return redirect("show-job")
 
+    if job.recruiter != recruiter : 
+        messages.error(request , "Unauthorized Access ")
+        return redirect("show-job")
+
+    try:
+        applicants = JobApplication.objects.filter(job_id=jid)
+        return render(request , "recruiter/show_applicants.html" , {'applicants':applicants , 'job':job})
+    except:
+        messages.error(request , "not able to fetch applications")
+
+    return render(request , "recruiter/show_applicants.html")
+
+def updateApplicationStatus(request , aid):
+    user_id = request.session.get('user_id' , None)
+    if user_id is None :
+        messages.error(request , "Login first")
+        return redirect("login")
+    user = AppUser.objects.get(id=user_id)
+    if user.u_type != "recruiter":
+        messages.error(request , "You are not Authorized to perform this operation")
+        return redirect("login")
+    try :
+        recruiter = Recruiter.objects.get(user = user)
+    except:
+        messages.error(request , "recruiter not found")
+        return redirect("login")
+
+    if request.method == "POST":
+        jid = request.POST.get("job_id")
+        app_status = request.POST.get("app_status")
+
+
+    application = JobApplication.objects.get(id=aid)
+    job = Job.objects.get(id=jid)   
+
+    if application.job.recruiter != job.recruiter:
+        messages.error(request , "You are Unauthorized to perform this operation")
+        return redirect("show-job")
+
+    application.status = app_status
+    application.save()
+    messages.success(request , "application status updated successfully ")
+    return redirect("job-applicants" , jid=jid)     
+
+
+# in later versions
 def createProfile(request):
     pass
 

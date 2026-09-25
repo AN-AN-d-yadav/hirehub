@@ -129,3 +129,10 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+
+# The absolute filesystem path to the directory where user-uploaded files will be saved.
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# The URL that handles the media served from MEDIA_ROOT.
+MEDIA_URL = '/media/'

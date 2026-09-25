@@ -37,6 +37,7 @@
             <th>is_active</th>
             <th>skills_required</th>
             <th>created_at</th>
+            <th>Applicants</th>
             <th>Actions</th>
         </tr>
         {% for job in jobs %}
@@ -57,6 +58,7 @@
                 {% endfor %}
             </td>
             <td>{{job.created_at}}</td>
+            <td><a href="{% url 'job-applicants' jid=job.id %}">view applicants</a></td>
             <td>
                 <a href="{% url 'job-update' jid=job.id %}">Edit</a>
                 <a href="{% url 'job-delete' jid=job.id %}">delete</a>

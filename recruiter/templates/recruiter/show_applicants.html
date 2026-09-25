@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <br>
+    
+    <span>Application for - </span> <b>{{ job.title }}</b>
+    
+    <table border="2px" cellspacing="0" cellpadding="15">
+        <tr>
+            <th>Name </th>
+            <th>View Resume :</th>
+            <th>Current Status</th>
+            <th>Update Status</th>
+        </tr>
+        {% for applicant in applicants %}
+            <tr>
+               <td> {{applicant.jobseeker.user.first_name }} {{applicant.jobseeker.user.last_name }}</td>
+               <td><a href="/media/{{ applicant.jobseeker.cv }}">{{ applicant.jobseeker.cv }}</a></td>
+               <td>
+                {{applicant.status}}
+               </td>
+               <td>
+                    <form action="{% url 'application-status' aid=applicant.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="job_id" value="{{job.id}}">
+                        <select name="app_status" id="">
+                            <option value="pending" >Pending</option>
+                            <option value="shortlisted">ShortListed</option>
+                            <option value="rejected">Rejected</option>
+                            <option value="selected">Selected</option>
+                        </select>
+                        <button type="submit">update</button>
+                    </form>
+               </td>    
+            </tr>
+        {% endfor %}
+        
+    </table>
+    
+</body>
+</html>

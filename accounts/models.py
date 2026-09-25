@@ -51,8 +51,8 @@ class JobSeeker(models.Model):
     linkedin_url = models.URLField(null=True , blank = True)
     github_url = models.URLField(null=True , blank = True)
     portfolio_url = models.URLField(null=True , blank = True)
-    is_open_to_work = models.BooleanField(default=True)
-
+    is_open_to_work = models.BooleanField(default=True),
+    cv = models.FileField(upload_to="resume/" , null=True , blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
 

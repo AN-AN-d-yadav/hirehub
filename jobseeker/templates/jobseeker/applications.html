@@ -14,13 +14,16 @@
                 <th>Applied at</th>
                 <th>Status</th>
                 <th>View Deatils</th>
+                <th>Actions</th>
             </tr>
             {% for application in applications %}
                 <tr>
                     <td>{{application.job.title}}</td>
                     <td>{{application.applied_at}}</td>
+
                     <td>{{application.status}}</td>
                     <td><a href="{% url 'job-detail' jid=application.job.id %}">Details</a></td>
+                    <td><a href="{% url 'application-delete' aid=application.id %}">Delete</a></td>
                 </tr>
             {% endfor %}
             

@@ -26,10 +26,12 @@ def showJobs(request):
             return redirect("login")
     user = AppUser.objects.get(id=user_id)
     if user.u_type != "jobseeker":
-            messages.error(request , "You are not Authorized to perform this operation")
-            return redirect("login")
+        messages.error(request , "You are not Authorized to perform this operation")
+        return redirect("login")
+    
 
     jobs = Job.objects.filter(is_active=True , deadline__gte=timezone.now())
+
     # figure out jobs pe sirf vo jobs dikhe jinme jobseejer -> logged in jobseeker na ho
     # job deadline cross krgyi ya nahi 
     # calculate date delta 
@@ -92,7 +94,6 @@ def applyJob(request , jid):
     except:
         messages.error(request , "Job Not Found")
         return redirect("jobs")
-
     exist  = JobApplication.objects.filter(job_id = jid , jobseeker = jobseeker)
 
     if exist :
@@ -127,14 +128,39 @@ def showApplications(request):
     except:
         return render(request , "jobseeker/applications.html")
 
+# latest
 def deleteApplication(request , aid):
-    pass
+    user_id = request.session.get('user_id' , None)
+    if user_id is None :
+        messages.error(request , "Login first")
+        return redirect("login")
+    user = AppUser.objects.get(id=user_id)
+    if user.u_type != "jobseeker":
+        messages.error(request , "You are not Authorized to perform this operation")
+        return redirect("login")
+    try :
+        jobseeker = JobSeeker.objects.get(user = user)
+    except:
+        messages.error(request , "jobseeker not found")
+        return redirect("login")
+
+    try:
+         application = JobApplication.objects.get(id=aid)
+
+         if application.jobseeker != jobseeker:
+                messages.error(request , "You are not Authorized to perform this operation")
+                return redirect("login")
+         
+         application.delete()
+         messages.success(request , "Job Deleted Successfully !")
+         return redirect("applications")
+    except JobApplication.DoesNotExist:
+         messages.error(request , "application doesnot exist ") 
+         return redirect("applications")
+    
 
     
          
 
-# ui 
-# cv upload karana on application
-# dont show already applied jobs in show jobs .
-# dont show apply button in job detail page if user has already applied for that job .
-# 
+
+
